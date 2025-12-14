@@ -4,62 +4,67 @@ using namespace std;
 
 class Vehicle
 {
-    protected:
-        int Id;
-        int year;
-        string manufacturer;
-        string model;
+protected:
+    int vehicleId;
+    int year;
+    string manufacturer;
+    string model;
 
-    public:
-        static int total;
-        Vehicle()
-        {
-            Id = 0;
-            manufacturer = "";
-            model = "";
-            year = 0;
-            total++;
-        }
-        Vehicle(int v_ID, string v_mfg, string v_mdl, int v_year)
-        {
-            Id = v_ID;
-            manufacturer = v_mfg;
-            model = v_mdl;
-            year = v_year;
-            total++;
-        }
-        virtual ~Vehicle()
-        {}
+public:
+    static int total;
 
-        void setVehicleID(int id)
-        {
-            Id = id;
-        }
-        void setmanufacturer(string manufacture)
-        {
-            manufacturer = manufacture;
-        }
-        void setmodel(string Model)
-        {
-            model = Model;
-        }
-        void setyear(int Year)
-        {
-            year = Year;
-        }
+    Vehicle()
+    {
+        vehicleId = 0;
+        manufacturer = "";
+        model = "";
+        year = 0;
+        total++;
+    }
 
-        int getID()
-        {
-            return Id;
-        }
+    Vehicle(int v_vehicleId, string v_manufacturer, string v_model, int v_year)
+    {
+        vehicleId = v_vehicleId;
+        manufacturer = v_manufacturer;
+        model = v_model;
+        year = v_year;
+        total++;
+    }
 
-        virtual void displayVehicle()
-        {
-            cout << "Vehicle Id: " << Id << endl;
-            cout << "Vehicle Manufacturer: " << manufacturer << endl;
-            cout << "Vehicle Model: " << model << endl;
-            cout << "Vehicle Year: " << year << endl;
-        }
+    virtual ~Vehicle() {}
+
+    void setVehicleID(int id)
+    {
+        vehicleId = id;
+    }
+
+    void setManufacturer(string manufacture)
+    {
+        manufacturer = manufacture;
+    }
+
+    void setModel(string modelName)
+    {
+        model = modelName;
+    }
+
+    void setYear(int vehicleYear)
+    {
+        year = vehicleYear;
+    }
+
+    int getID()
+    {
+        return vehicleId;
+    }
+
+    virtual void displayVehicle()
+    {
+        cout << "Vehicle Id: " << vehicleId << endl;
+        cout << "Vehicle Manufacturer: " << manufacturer << endl;
+        cout << "Vehicle Model: " << model << endl;
+        cout << "Vehicle Year: " << year << endl;
+    }
 };
 
 int Vehicle::total = 0;
@@ -75,10 +80,10 @@ public:
         fuelType = "";
     }
 
-    Car(int v_id, string v_mfg, string v_mdl, int v_yr, string fuel)
-        : Vehicle(v_id, v_mfg, v_mdl, v_yr)
+    Car(int v_vehicleId, string v_manufacturer, string v_model, int v_year, string v_fuelType)
+        : Vehicle(v_vehicleId, v_manufacturer, v_model, v_year)
     {
-        fuelType = fuel;
+        fuelType = v_fuelType;
     }
 
     void displayVehicle()
@@ -91,41 +96,41 @@ public:
 class ElectricCar : public Car
 {
 protected:
-    int battery_capacity;
+    int batteryCapacity;
 
 public:
     ElectricCar() : Car()
     {
-        battery_capacity = 0;
+        batteryCapacity = 0;
     }
 
-    ElectricCar(int v_id, string v_mfg, string v_mdl, int v_yr, string fuel, int battery)
-        : Car(v_id, v_mfg, v_mdl, v_yr, fuel)
+    ElectricCar(int v_vehicleId, string v_manufacturer, string v_model, int v_year, string v_fuelType, int v_batteryCapacity)
+        : Car(v_vehicleId, v_manufacturer, v_model, v_year, v_fuelType)
     {
-        battery_capacity = battery;
+        batteryCapacity = v_batteryCapacity;
     }
 
     void displayVehicle()
     {
         Car::displayVehicle();
-        cout << "Battery: " << battery_capacity << " kWh" << endl;
+        cout << "Battery: " << batteryCapacity << " kWh" << endl;
     }
 };
 
 class Aircraft
 {
 protected:
-    int flight_range;
+    int flightRange;
 
 public:
     Aircraft()
     {
-        flight_range = 0;
+        flightRange = 0;
     }
 
-    Aircraft(int f_range)
+    Aircraft(int v_flightRange)
     {
-        flight_range = f_range;
+        flightRange = v_flightRange;
     }
 };
 
@@ -134,13 +139,14 @@ class FlyingCar : public Car, public Aircraft
 public:
     FlyingCar() : Car(), Aircraft() {}
 
-    FlyingCar(int v_id, string v_mfg, string v_mdl, int v_yr, string fuel, int range)
-        : Car(v_id, v_mfg, v_mdl, v_yr, fuel), Aircraft(range) {}
+    FlyingCar(int v_vehicleId, string v_manufacturer, string v_model, int v_year, string v_fuelType, int v_flightRange)
+        : Car(v_vehicleId, v_manufacturer, v_model, v_year, v_fuelType),
+          Aircraft(v_flightRange) {}
 
     void displayVehicle()
     {
         Car::displayVehicle();
-        cout << "Flight Range: " << flight_range << endl;
+        cout << "Flight Range: " << flightRange << endl;
     }
 };
 
@@ -154,10 +160,10 @@ public:
         topSpeed = 0;
     }
 
-    SportsCar(int v_id, string v_mfg, string v_mdl, int v_yr, string fuel, int battery, int speed)
-        : ElectricCar(v_id, v_mfg, v_mdl, v_yr, fuel, battery)
+    SportsCar(int v_vehicleId, string v_manufacturer, string v_model, int v_year, string v_fuelType, int v_batteryCapacity, int v_topSpeed)
+        : ElectricCar(v_vehicleId, v_manufacturer, v_model, v_year, v_fuelType, v_batteryCapacity)
     {
-        topSpeed = speed;
+        topSpeed = v_topSpeed;
     }
 
     void displayVehicle()
@@ -170,67 +176,61 @@ public:
 class Sedan : public Car
 {
 public:
-    Sedan() : Car() {
+    Sedan() : Car() {}
 
-    }
-    Sedan(int v_id, string v_mfg, string v_mdl, int v_yr, string fuel)
-        : Car(v_id, v_mfg, v_mdl, v_yr, fuel) {
-
-        }
+    Sedan(int v_vehicleId, string v_manufacturer, string v_model, int v_year, string v_fuelType)
+        : Car(v_vehicleId, v_manufacturer, v_model, v_year, v_fuelType) {}
 };
 
 class SUV : public Car
 {
 public:
-    SUV() : Car() {
-        
-    }
-    SUV(int v_id, string v_mfg, string v_mdl, int v_yr, string fuel) 
-    : Car(v_id, v_mfg, v_mdl, v_yr, fuel){
-    
-    }
+    SUV() : Car() {}
+
+    SUV(int v_vehicleId, string v_manufacturer, string v_model, int v_year, string v_fuelType)
+        : Car(v_vehicleId, v_manufacturer, v_model, v_year, v_fuelType) {}
 };
 
 class VehicleRegistry
 {
 private:
     Vehicle vehicles[100];
-    int NumCount;
+    int vehicleCount;
 
 public:
     VehicleRegistry()
     {
-        NumCount = 0;
+        vehicleCount = 0;
     }
 
-    void addVehicle(Vehicle vehical)
+    void addVehicle(Vehicle vehicle)
     {
-        if (NumCount < 100)
+        if (vehicleCount < 100)
         {
-            vehicles[NumCount] = vehical;
-            NumCount++;
-            cout << endl << "Vehicle added sucessfully!" << endl;
+            vehicles[vehicleCount] = vehicle;
+            vehicleCount++;
+            cout << endl << "Vehicle added successfully!" << endl;
         }
     }
 
     void displayAll()
     {
-        if (NumCount == 0)
+        if (vehicleCount == 0)
         {
             cout << endl << "No Vehicles!" << endl;
             return;
         }
 
-        for (int i = 0; i < NumCount; i++)
+        for (int i = 0; i < vehicleCount; i++)
         {
             vehicles[i].displayVehicle();
             cout << endl;
         }
     }
 
-    void searchId(int id)
+    void searchById(int id)
     {
-        for (int i = 0; i < NumCount; i++)
+        for (int i = 0; i < vehicleCount; i++)
         {
             if (vehicles[i].getID() == id)
             {
@@ -246,90 +246,89 @@ public:
 int main()
 {
     VehicleRegistry registry;
-    int Choice;
+    int choice;
 
     do
     {
         cout << endl << "|-------- Vehicle Registry Menu --------|" << endl;
-        cout << "1. for Add Vehicle" << endl;
-        cout << "2. for View All Vehicles" << endl;
-        cout << "3. for Search by ID" << endl;
-        cout << "4. for Exit" << endl;
-        cout << "------------------------------------" << endl;
+        cout << "1. Add Vehicle" << endl;
+        cout << "2. View All Vehicles" << endl;
+        cout << "3. Search by ID" << endl;
+        cout << "4. Exit" << endl;
+        cout << "---------------------------------------" << endl;
         cout << "Enter Your Choice: ";
-        cin >> Choice;
+        cin >> choice;
 
-        switch (Choice)
+        switch (choice)
         {
         case 1:
         {
-            int Vehicaltype;
-            cout << "Select Your Vehical Type: " << endl;
-            cout << "1. For Car." << endl;
-            cout << "2. For Electric." << endl;
-            cout << "3. For Flying." << endl;
-            cout << "4. For Sports." << endl;
-            cout << "5. For Sedan." << endl;
-            cout << "6. For SUV." << endl;
-            cout << "Your Selection: " << endl;
-            cin >> Vehicaltype;
+            int vehicleType;
+            cout << "Select Vehicle Type:" << endl;
+            cout << "1. Car" << endl;
+            cout << "2. Electric Car" << endl;
+            cout << "3. Flying Car" << endl;
+            cout << "4. Sports Car" << endl;
+            cout << "5. Sedan" << endl;
+            cout << "6. SUV" << endl;
+            cin >> vehicleType;
 
-            int id, year, range, battery, speed;
-            string manufacture, model, fuel;
+            int id, year, flightRange, batteryCapacity, topSpeed;
+            string manufacturer, model, fuelType;
 
             cout << "ID: ";
             cin >> id;
             cout << "Manufacturer: ";
-            cin >> manufacture;
+            cin >> manufacturer;
             cout << "Model: ";
             cin >> model;
             cout << "Year: ";
             cin >> year;
 
-            switch (Vehicaltype)
+            switch (vehicleType)
             {
             case 1:
                 cout << "Fuel: ";
-                cin >> fuel;
-                registry.addVehicle(Car(id, manufacture, model, year, fuel));
+                cin >> fuelType;
+                registry.addVehicle(Car(id, manufacturer, model, year, fuelType));
                 break;
 
             case 2:
                 cout << "Fuel: ";
-                cin >> fuel;
+                cin >> fuelType;
                 cout << "Battery: ";
-                cin >> battery;
-                registry.addVehicle(ElectricCar(id, manufacture, model, year, fuel, battery));
+                cin >> batteryCapacity;
+                registry.addVehicle(ElectricCar(id, manufacturer, model, year, fuelType, batteryCapacity));
                 break;
 
             case 3:
                 cout << "Fuel: ";
-                cin >> fuel;
+                cin >> fuelType;
                 cout << "Range: ";
-                cin >> range;
-                registry.addVehicle(FlyingCar(id, manufacture, model, year, fuel, range));
+                cin >> flightRange;
+                registry.addVehicle(FlyingCar(id, manufacturer, model, year, fuelType, flightRange));
                 break;
 
             case 4:
                 cout << "Fuel: ";
-                cin >> fuel;
+                cin >> fuelType;
                 cout << "Battery: ";
-                cin >> battery;
+                cin >> batteryCapacity;
                 cout << "Top Speed: ";
-                cin >> speed;
-                registry.addVehicle(SportsCar(id, manufacture, model, year, fuel, battery, speed));
+                cin >> topSpeed;
+                registry.addVehicle(SportsCar(id, manufacturer, model, year, fuelType, batteryCapacity, topSpeed));
                 break;
 
             case 5:
                 cout << "Fuel: ";
-                cin >> fuel;
-                registry.addVehicle(Sedan(id, manufacture, model, year, fuel));
+                cin >> fuelType;
+                registry.addVehicle(Sedan(id, manufacturer, model, year, fuelType));
                 break;
 
             case 6:
                 cout << "Fuel: ";
-                cin >> fuel;
-                registry.addVehicle(SUV(id, manufacture,model, year, fuel));
+                cin >> fuelType;
+                registry.addVehicle(SUV(id, manufacturer, model, year, fuelType));
                 break;
 
             default:
@@ -344,17 +343,14 @@ int main()
 
         case 3:
         {
-            int ID;
-            cout << endl << "Enter ID: ";
-            cin >> ID;
-            cout << endl;
-            registry.searchId(ID);
+            int searchId;
+            cout << "Enter ID: ";
+            cin >> searchId;
+            registry.searchById(searchId);
             break;
-            
         }
 
         case 4:
-            
             cout << "Exiting..." << endl;
             break;
 
@@ -362,8 +358,7 @@ int main()
             cout << "Invalid Choice..." << endl;
         }
 
-    }while(Choice!=4);
-
+    } while (choice != 4);
 
     return 0;
 }
